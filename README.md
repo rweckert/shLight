@@ -9,7 +9,7 @@ The shLight script allows the process of converting source code of varying langu
 ### Setup:
 1. Please review "[Common System Requirements](https://github.com/rweckert/shLight/blob/main/README.md#common-system-requirements)" and "[Critical System Requirements](https://github.com/rweckert/shLight/blob/main/README.md#critical-system-requirements)" sections below for basic and critical requirements to run this script successfully.
 2. Save the shLight.sh file to a directory. <br/>
-3. Make the shLight.sh script executable by running the following command in the same directory as the cImage.sh file: <br/>
+3. Make the shLight.sh script executable by running the following command in the same directory as the shLight.sh file: <br/>
 _chmod +x shLight.sh_
 
 ### Features:
@@ -109,7 +109,7 @@ Icon=gtk-select-color <br/>
 Terminal=false <br/>
 
 ### Common System Requirements:
-The following applications are in general use of most Linux systems and are used in having cImage deliver output: <br/>
+The following applications are in general use of most Linux systems and are used in having shLight deliver output: <br/>
 - awk <br/>
 - basemane <br/>
 - cat <br/>
@@ -122,14 +122,13 @@ The following applications are in general use of most Linux systems and are used
 - xdg-open <br/>
 
 ### Critical System Requirements:
-The most important requirement is the yad (yet another dialog) application which allows for the use of custom dialog, menu, and window options.
+Packages listed below provide the core ingredients for graphic display and desired output that enables SCRIPTNAME deliver output and are critical for successful execution of the the script:
 
-yad 14.0+ (GTK+ 3.24.41) [https://github.com/v1cont/yad](https://github.com/v1cont/yad)
-This script uses features of yad that do require version 14.0+ and built with GTK+ 3.24.41 or higher. Full setup instructions are available for either Linux or Microsoft Windows Subsystem for Linux (WSL) using a Debian base: [https://github.com/rweckert/yad-14.0-Setup-From-Scratch](https://github.com/rweckert/yad-14.0-Setup-From-Scratch) <br/>
+**- yad (Yet Another Dialog):** 14.0+ (GTK+ 3.24.41). A tool for developing graphical user interfaces in Linux and is used by this script to generate menus and dialog windows, is written by Victor Ananjevsky. Download: [https://github.com/v1cont/yad](https://github.com/v1cont/yad) Full setup instructions are available for either Linux or Microsoft Windows Subsystem for Linux (WSL) using a Debian base: [https://github.com/rweckert/yad-14.0-Setup-From-Scratch](https://github.com/rweckert/yad-14.0-Setup-From-Scratch) 
 
-**- yad (Yet Another Dialog):** A tool for developing graphical user interfaces in Linux, is written by Victor Ananjevsky. Download: [https://github.com/v1cont/yad](https://github.com/v1cont/yad) Installation instructions: https://github.com/rweckert/yad-14.0-Setup-From-Scratch <br/>
-**- source-highlight:** The source-highlight package is used to convert source code to syntax highlighted documents. Written by Lorenzo Bettini [http://www.lorenzobettini.it](http://www.lorenzobettini.it) More information regarding this package can be found at: [https://linux.die.net/man/1/source-highlight](https://linux.die.net/man/1/source-highlight) and also [https://www.gnu.org/software/src-highlite/](https://www.gnu.org/software/src-highlite/).
+**- source-highlight:** 3.1.9 (library: 4:1:0). The source-highlight package is used to convert source code to syntax highlighted documents. Written by Lorenzo Bettini [http://www.lorenzobettini.it](http://www.lorenzobettini.it) More information regarding this package can be found at: [https://linux.die.net/man/1/source-highlight](https://linux.die.net/man/1/source-highlight) and also [https://www.gnu.org/software/src-highlite/](https://www.gnu.org/software/src-highlite/).
 
+### Closing:
 Script interface written by: Robert W. Eckert - rweckert@gmail.com Please feel free to email to submit bugs, changes or requests. This script comes with absolutely no warranty. See the link for the GNU General Public License, version 3 or later listed below for further details.
 
 ### Project Contents:
