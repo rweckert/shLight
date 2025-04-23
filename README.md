@@ -131,6 +131,8 @@ Packages listed below provide the core ingredients for graphic display and desir
 ### Closing:
 Script interface written by: Robert W. Eckert - rweckert@gmail.com Please feel free to email to submit bugs, changes or requests. This script comes with absolutely no warranty. See the link for the GNU General Public License, version 3 or later listed below for further details.
 
+---
+
 ### Project Contents:
 **Project Page:** <br/>
 [https://github.com/rweckert/shLight](https://github.com/rweckert/shLight) <br/>
