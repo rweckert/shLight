@@ -1,347 +1,324 @@
 #!/bin/bash
-# shLight.sh Created: 02/17/2025 Updated: 02/27/2025
+# shLight.sh Created: 02/17/2025 Updated: 04/22/2025
 # Robert W. Eckert - rweckert@gmail.com
 #        .__    .____    .__       .__     __   
 #   _____|  |__ |    |   |__| ____ |  |___/  |_ 
 #  /  ___/  |  \|    |   |  |/ ___\|  |  \   __\
-#  \___ \|   Y  \    |___|  / /_/  >   Y  \  |  
+#  \___ \|   Y  \    |___|  / /_/  )   Y  \  |  
 # /____  >___|  /_______ \__\___  /|___|  /__|  
-#      \/     \/        \/ /_____/      \/ v1.2
-# Source highlighting front-end gui utility.
-# source-highlight written by Lorenzo Bettini: http://www.lorenzobettini.it
+#      \/     \/        \/ /_____/      \/ v1.4
+# Useful source syntax highlighting front-end GUI utility.
 
-bcall="bash -c"
 fcall="export -f"
-export app="$HOME/Scripts"
-export td="$HOME/Scripts/tmp"
-export opt1='@sh -c "echo %1,%2,%3,%4,%5,%6 > $td/shConvert.txt & $app/shLight.sh shConvert"'
+bcall="bash -c"
+afp=$(dirname "$(realpath "$0")")
+export app="$afp/shLight.sh"
+export td="/tmp"
+export tf="$td/shLight.txt"
+export tt="$td/shLight.tmp"
+export ti="$td/shLight.ini"
+export th="$td/shLight.html"
+export tl="$td/shLight-Languages.txt"
+export tm="$td/shLight-Multiple.txt"
+export tc="$td/shLight-Converted.txt"
 
-trap "rm -f gtk.css" EXIT
-cat <<EOF > gtk.css
-#yad-dialog-window { color: #ffffff; background-color: #EFF0F1; border-bottom-color: #ff5733;}
-#yad-dialog-window button { color: #000000; background-color: #EFF0F1; border-color: #5294E2; background-image: none; padding: 2px;}
-#yad-dialog-window button:hover { color: #ffffff;; background-color: #5294E2; border-color: #5294E2; background-image: none; padding: 2px; }
-#yad-dialog-label { color: #000000; background-color: #EFF0F1; border-bottom-color: #ff5733;}
-#yad-form-button { color: #000000;; background-color: #EFF0F1; border-color: #5294E2;}
-#yad-form-button:hover { color: #ffffff;; background-color: #5294E2; border-bottom-color: #5294E2;}
-#yad-form-flabel { color: #000000; background-color: #EFF0F1; border-color: #5294E2;}
-#yad-form-entry { color: #000000; background-color: #ffffff; border-color: #5294E2; caret-color: #000000;}
-#yad-list-widget { color: #000000; background-color: #EFF0F1;}
-#yad-list-widget:selected { color: #ffffff;; background-color: #5294E2;}
-#yad-form-combo box { color: #000000; background-color: #EFF0F1; border-color: #5294E2; background-image: none;}
-#yad-form-combo box button { color: #000000; background-color: #EFF0F1; border-color: #5294E2; background-image: none;}
-EOF
-
+# Main Menu: ===========================
 function mMenu {
-st=$(echo "bat,c,cs,css,html,ini,java,javascript,json,log,perl,php,py,ruby,sh,sql,vbs,xhtml")
-yd1=$(yad --css=gtk.css --form --posx=40 --posy=40 --width=700 --title="shLight-v1.2" --name="shLight-v1.2" --window-icon="text-x-script" --separator="," --item-separator="," --no-buttons --columns=2 \
---field="Output Title" "rwebiSource-" \
---field="Input File":FL "" \
---field="Source Type:CBE" "$st" \
---field="Output Folder":MDIR "/home/rweckert/rwebi/htdocs/Source/SourceLibrary" \
---field="Output File" "rwebiSource-Item-Name-html.html" \
---field="Viewer" "falkon" \
---field "Convert Source":fbtn "$opt1" \
---field "Language List":fbtn "bash $app/shLight.sh shLanguage" \
---field "Report Details":fbtn "bash $app/shLight.sh shReport" \
---field "Options":fbtn "bash $app/shLight.sh shOptions" \
---field "About":fbtn "bash $app/shLight.sh about" \
---field="Exit":fbtn "wmctrl -c 'shLight-v1.2'")
-
+yad --form --css="$tp" --posx=20 --posy=20 --fixed --title="shLight-Menu" --name="mMenu" --window-icon="text-x-script" --f1-action="$app mHelp" --no-buttons --columns=8 \
+--field "Convert":fbtn "$bcall mConvert" \
+--field="Multiple":fbtn "$bcall mMultiple" \
+--field="View":fbtn "$bcall vResult" \
+--field="Languages":fbtn "$bcall vLanguage" \
+--field="Options":fbtn "$bcall mTheme" \
+--field="Exit":fbtn "$bcall mExit" 2> /dev/null
 }
 $fcall mMenu
 
-function shOptions {
-yd2=$(yad --form --posx=80 --posy=80 --width=500 --title="shLight-Options" --name="shLight-Options" --window-icon="text-x-script" --separator="," --item-separator="," --no-buttons --columns=1 \
---field="Line Numbering:CHK" \
---field="Number Padding":Numeric "4" \
---field="Number Anchors:CHK" \
---field="Include Statistics:CHK" \
---field="External Stylesheet":TEXT "")
+# Convert Menu: ========================
+function mConvert {
+cs='@sh -c "echo %1,%2,%3,%4,%5,%6,%7 > $tf & $app cValidate"'
+st=$(echo "sh,bat,c,cs,css,html,ini,java,javascript,json,log,perl,php,py,ruby,sql,vbs,xhtml")
+ss=$(echo "default,mono,mono-alt,acid,berries-dark,berries-light,bipolar,blacknblue,bright,contrast,darkblue,darkness,desert,dull,easter,emacs,golden,greenlcd,ide-anjuta,ide-codewarrior,ide-devcpp,ide-eclipse,ide-kdev,ide-msvcpp,kwrite,matlab,navy,nedit,neon,night,pablo,peachpuff,print,rand01,the,typical,vampire,vim,vim-dark,whatis,whitengrey,zellner")
+yad --form --css="$tp" --posx=20 --posy=115 --width=150 --title="shLight-Convert" --name="mConvert" --window-icon="text-x-script" --f1-action="$app mHelp" --separator="," --item-separator="," --fixed --no-buttons --columns=1 \
+--field="Source File:FL" "$sf" \
+--field="Language:CBE" "$st" \
+--field="Output Folder:DIR" "" \
+--field="Output File:" "" \
+--field="Output Title:" "" \
+--field="Line Numbering:CHK" "False" \
+--field="Syntax Style:CBE" "$ss" \
+--field="Covert Source":fbtn "$cs" \
+--field="Close Convert":fbtn "wmctrl -c 'shLight-Convert'"
 }
-$fcall shOptions
+$fcall mConvert
 
-function shReport {
-export opt2='@sh -c "echo %1,%2,%3,%4,%5,%6 > $td/shReport.txt & wmctrl -c 'shLight-Report'"'
-export opt3='@sh -c "rm -f $td/shReport.txt & wmctrl -c 'shLight-Report'"'
-
-yd3=$(yad --form --posx=90 --posy=90 --width=500 --title="shLight-Report" --name="shLight-Report" --window-icon="text-x-script" --no-buttons --columns=1 \
---field="Source Title" "$rt" \
---field="Author(s)" "$ra" \
---field="File Name" "$rf" \
---field="Date Time" "$rd" \
---field="Version" "$rv" \
---form \
-  --field="Description / Notes::TXT" "" \
---field "Export":fbtn "bash $app/shLight.sh shReportExport" \
---field "Save":fbtn "$opt2" \
---field "Remove":fbtn "$opt3" \
---field "Cancel":fbtn "wmctrl -c 'shLight-Report'")
-
+# Convert Validate: ====================
+function cValidate {
+si=$(cat $tf | awk 'BEGIN {FS="," } { print $1 }')
+st=$(cat $tf | awk 'BEGIN {FS="," } { print $2 }')
+od=$(cat $tf | awk 'BEGIN {FS="," } { print $3 }')
+of=$(cat $tf | awk 'BEGIN {FS="," } { print $4 }')
+ot=$(cat $tf | awk 'BEGIN {FS="," } { print $5 }')
+ln=$(cat $tf | awk 'BEGIN {FS="," } { print $6 }')
+ss=$(cat $tf | awk 'BEGIN {FS="," } { print $7 }')
+if [ -z "$si" ]; then yad --text="Please select a file to convert." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+if [ -z "$od" ]; then yad --text="Please select a output directory for conversion." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0 return 1; fi
+if [ -z "$st" ]; then
+yad --text="Please select the language of the source file for conversion." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+if [ -z "$of" ]; then yad --text="Please provide a output file for conversion." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+if [ -z "$st" ]; then yad --text="Please select a style for the output file." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+pConvert
 }
-$fcall shReport
+$fcall cValidate
 
-function shValid {
-sTitle=$(echo $ydo | awk 'BEGIN {FS="," } { print $1 }')
-sInput=$(echo $ydo | awk 'BEGIN {FS="," } { print $2 }')
-sType=$(echo $ydo | awk 'BEGIN {FS="," } { print $3 }')
-rFolder=$(echo $ydo | awk 'BEGIN {FS="," } { print $4 }')
-rFile=$(echo $ydo | awk 'BEGIN {FS="," } { print $5 }')
-rViewer=$(echo $ydo | awk 'BEGIN {FS="," } { print $6 }')
-rvPath="/usr/bin/"
-
-if [ -z "$sInput" ]; then yad --text="Input File was not specified." --button="OK"
-shLight; fi
-if [ -z "$sType" ]; then yad --text="Source Type was not specified." --button="OK"
-shLight; fi
-if [ -z "$rFolder" ]; then yad --text="Output Folder was not specified." --button="OK"
-shLight; fi
-if [ -z "$rFile" ]; then yad --text="Output File was not specified." --button="OK"
-shLight; fi
-
-if [ -n "$sInput" ] && [ -n "$sType" ] && [ -n "$rFolder" ] && [ -n "$rFile" ]; then shProcess; fi
-
+# mMultiple Menu: ======================
+function mMultiple {
+cm='@sh -c "echo %1@%2@%3@%4@%5 > $tf & $app mValidate"'
+st=$(echo "sh,bat,c,cs,css,html,ini,java,javascript,json,log,perl,php,py,ruby,sql,vbs,xhtml")
+ss=$(echo "default,mono,mono-alt,acid,berries-dark,berries-light,bipolar,blacknblue,bright,contrast,darkblue,darkness,desert,dull,easter,emacs,golden,greenlcd,ide-anjuta,ide-codewarrior,ide-devcpp,ide-eclipse,ide-kdev,ide-msvcpp,kwrite,matlab,navy,nedit,neon,night,pablo,peachpuff,print,rand01,the,typical,vampire,vim,vim-dark,whatis,whitengrey,zellner")
+yad --form --css="$tp" --posx=20 --posy=115 --width=150 --title="shLight-Multiple" --name="mMultiple" --window-icon="text-x-script" --f1-action="$app mHelp" --separator="," --item-separator="," --fixed --no-buttons --columns=1 \
+--field="Source Files:MFL" "" \
+--field="Language:CBE" "$st" \
+--field="Output Folder:DIR" "" \
+--field="Syntax Style:CBE" "$ss" \
+--field="Line Numbering:CHK" "False" \
+--field "Convert Multiple":fbtn "$cm" \
+--field="Multiple Result List":fbtn "$app vMultiple" \
+--field "Close Multiple":fbtn "wmctrl -c 'shLight-Multiple'"
 }
-$fcall shValid
+$fcall mMultiple
 
-function shConvert {
+# Multiple Validate: ====================
+function mValidate {
+sl=$(cat $tf | awk 'BEGIN {FS="@" } { print $1 }')
+st=$(cat $tf | awk 'BEGIN {FS="@" } { print $2 }')
+od=$(cat $tf | awk 'BEGIN {FS="@" } { print $3 }')
+ss=$(cat $tf | awk 'BEGIN {FS="@" } { print $4 }')
+ln=$(cat $tf | awk 'BEGIN {FS="@" } { print $5 }')
+if [ -z "$sl" ]; then yad --text="Please select some files for multiple conversion." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+if [ -z "$st" ]; then yad --text="Please select the language of the source files for conversion." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+if [ -z "$od" ]; then yad --text="Please select a output directory for multiple conversion." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0 return 1; fi
+if [ -z "$ss" ]; then yad --text="Please select a style for the output files." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0; return 1; fi
+pMultiple
+}
+$fcall mValidate
 
-yad --text-info="" < $td/shConvert.txt
-read cf < $td/shConvert.txt
-sTitle=$(echo $cf | awk 'BEGIN {FS="," } { print $1 }')
-sInput=$(echo $cf | awk 'BEGIN {FS="," } { print $2 }')
-sType=$(echo $cf | awk 'BEGIN {FS="," } { print $3 }')
-rFolder=$(echo $cf | awk 'BEGIN {FS="," } { print $4 }')
-rFile=$(echo $cf | awk 'BEGIN {FS="," } { print $5 }')
-rViewer=$(echo $cf | awk 'BEGIN {FS="," } { print $6 }')
-rvPath="/usr/bin/"
-
-source-highlight --title="$sTitle" --src-lang="$sType" -i "$sInput" -o "$rFolder/$rFile"
-
-if test -f "$td/shReport.txt"; then
-sed -i '1s/^/<hr>\n/' $rFolder/$rFile
-sed -i '1s/^/Title:\n/' $rFolder/$rFile
-fi
-
-if [ -z "$rViewer" ]; then
-shComplete
+# Process Convert: =====================
+function pConvert {
+si=$(cat $tf | awk 'BEGIN {FS="," } { print $1 }')
+st=$(cat $tf | awk 'BEGIN {FS="," } { print $2 }')
+od=$(cat $tf | awk 'BEGIN {FS="," } { print $3 }')
+of=$(cat $tf | awk 'BEGIN {FS="," } { print $4 }')
+ot=$(cat $tf | awk 'BEGIN {FS="," } { print $5 }')
+ln=$(cat $tf | awk 'BEGIN {FS="," } { print $6 }')
+ss=$(cat $tf | awk 'BEGIN {FS="," } { print $7 }')
+if [ "$ss" == "default" ] || [ "$ss" == "mono" ] || [ "$ss" == "mono-alt" ] ; then
+ts="$ss.css"
 else
-$rvPath$rViewer "$rFolder/$rFile"
-shComplete
+ts="sh_$ss.css"
+fi
+if [[ "$ln" == "TRUE" ]]; then
+source-highlight --title="$ot" --src-lang="$st" --line-number -i "$si" -o "$od/$of" --style-css-file="/usr/share/source-highlight/$ts"
+fi
+if [[ "$ln" == "FALSE" ]]; then
+source-highlight --title="$ot" --src-lang="$st" -i "$si" -o "$od/$of" --style-css-file="/usr/share/source-highlight/$ts"
+fi
+vResult
+}
+$fcall pConvert
+
+# Process Multiple: ====================
+function pMultiple {
+sl=$(cat $tf | awk 'BEGIN {FS="@" } { print $1 }')
+st=$(cat $tf | awk 'BEGIN {FS="@" } { print $2 }')
+od=$(cat $tf | awk 'BEGIN {FS="@" } { print $3 }')
+ss=$(cat $tf | awk 'BEGIN {FS="@" } { print $4 }')
+ln=$(cat $tf | awk 'BEGIN {FS="@" } { print $5 }')
+if [ "$ss" == "default" ] || [ "$ss" == "mono" ] || [ "$ss" == "mono-alt" ] ; then
+ts="$ss.css"
+else
+ts="sh_$ss.css"
+fi
+echo "$sl" > "$tm" #$td/mList.txt
+echo -n "" > "$tc" #/$td/clist.txt
+sed -i 's/,/\n/g' "$tm" #$td/mList.txt
+while read -r line; do
+of=$(echo "${line}" | awk 'BEGIN {FS="." } { print $1 }')
+pn=$(basename "$of")
+fn="Source-$pn.html"
+fp=$(echo "${line}")
+echo "$od/$fn" >> "$tc" #$td/clist.txt
+if [[ "$ln" == "TRUE" ]]; then
+source-highlight --title="$of" --src-lang="$st" --line-number -i "$fp" -o "$od/$fn" --style-css-file="/usr/share/source-highlight/$ts"
+fi
+if [[ "$ln" == "FALSE" ]]; then
+source-highlight --title="$of" --src-lang="$st" -i "$fp" -o "$od/$fn" --style-css-file="/usr/share/source-highlight/$ts"
+fi
+i=($i+1)
+echo $i
+echo "# $((i))%"
+done < "$tm" | yad --progress --css="$tp" --text="Multiple Conversion in Progress" --title="Info" --window-icon="dialog-info" --pulsate --auto-close --auto-kill --on-top --center --button=yad-cancel
+vMultiple
+}
+$fcall pMultiple
+
+# View Multiple: =======================
+function vMultiple {
+od=$(cat $tf | awk 'BEGIN {FS="@" } { print $3 }')
+vo='@sh -c "xdg-open %s"'
+ydo=$(yad --list --css="$tp" --posx=50 --posy=160 --width=500 --height=430 --title="shLight-Multiple-List" --name="vMultiple" --window-icon="text-x-script" --f1-action="$app mHelp" --dclick-action="$vo" --button="Browse Output":3 --button="Export List":2 --button="Close List":1 --column="Converted File" < $tc)
+ydo=$?
+if [[ $ydo -eq 1 ]]; then wmctrl -c 'shLight-Multiple-List'; fi
+if [[ $ydo -eq 2 ]]; then xdg-open "$tc"; fi
+if [[ $ydo -eq 3 ]]; then xdg-open "$od"; fi
+}
+$fcall vMultiple
+
+# View Result: =========================
+function vResult {
+od=$(cat $tf | awk 'BEGIN {FS="," } { print $3 }')
+of=$(cat $tf | awk 'BEGIN {FS="," } { print $4 }')
+if [ -z "$od" ]; then
+yad --text="Please convert a file before viewing the converted output." --css="$tp" --title="Info" --window-icon="dialog-info" --center --text-align=left --fixed --on-top --button="OK":0 & exit
+fi
+ydo=$(yad --html --browser --css="$tp" --width=900 --height=500 --center --title="shLight-View" --name="vResult" --window-icon="text-x-script" --f1-action="$app mHelp" --uri="$od/$of" --file-op --button="Open Folder":4 --button="Edit Output":3 --button="Print Output":2 --button="Close Viewer":1)
+ydo=$?
+if [[ $ydo -eq 1 ]]; then wmctrl -c 'shLight-View'; fi
+if [[ $ydo -eq 2 ]]; then
+yad --print --filename="$od/$of" --center
+vResult
+fi
+if [[ $ydo -eq 3 ]]; then
+cp -f "$od/$of" "$td/shLight-Converted.txt"
+xdg-open "$td/shLight-Converted.txt"
+vResult
+fi
+if [[ $ydo -eq 4 ]]; then
+xdg-open "$od"
+vResult
 fi
 }
-$fcall shConvert
+$fcall vResult
 
-function shComplete {
-yad --text="shLight has prcossed source file:\n$rFolder/$rFile" --button="OK"
-
+function vLanguage {
+source-highlight --lang-list > "$tl"
+sed -i 's/=/\n/g' "$tl"
+ydo=$(yad --list --css="$tp" --posx=50 --posy=160 --width=500 --height=430 --title="shLight-Languages" --name="vLanguage" --window-icon="text-x-script" --f1-action="$app mHelp" --dclick-action="$cp" --button="Close":1 --column="Tag" --column="Language" < $tl)
 }
-$fcall shComplete
+$fcall vLanguage
 
-function shExit {
-echo -e "\nNo source processed. shLight was canceled."
-exit 
+# Menu Theme: ==========================
+function mTheme {
+gut='@sh -c "echo %2 > $tf & $app tUser"'
+gst='@sh -c "echo %5 > $tf & $app tSystem"'
+ydo=$(yad --form --css="$tp" --posx=40 --posy=135 --width=300 --fixed --title="shLight-Theme" --name="mTheme" --window-icon="text-x-script" --f1-action="$app mHelp" --button="Help":3 --button="About":2 --button="Close":1 \
+--field="Custom Theme"::LBL "" \
+--field="Load Theme:FL" "/usr/share/themes/" \
+--field="Apply Custom Theme":fbtn "$gut" \
+--field="System Default"::LBL "" \
+--field="Mode:CB" "Light Theme\!Dark Theme" \
+--field="Apply System Theme":fbtn "$gst" \
+--field="Browse Themes Folder":fbtn "$app tBrowse" 2> /dev/null)
+ydo=$?
+if [[ $ydo -eq 1 ]]; then wmctrl -c 'shLight-Theme'; fi
+if [[ $ydo -eq 2 ]]; then mAbout; fi
+if [[ $ydo -eq 3 ]]; then mHelp; fi
 }
-$fcall shExit
+$fcall mTheme
 
-function about {
-yad --about \
---window-icon=gtk-about \
+# User Selected Theme: =================
+function tUser {
+read gut < "$tf"
+sed -i '/stheme:/d' $ti
+echo "stheme:$gut" >> "$ti"
+tApply
+}
+$fcall tUser
+
+# System Theme: ========================
+function tSystem {
+read gst < "$tf"
+if [ "$gst" = "Dark Theme" ]; then
+sed -i '/stheme:/d' "$ti"
+echo "stheme:/usr/share/themes/Breeze-Dark/gtk-4.0/gtk.css" >> "$ti"
+fi
+if [ "$gst" = "Light Theme" ]; then
+sed -i '/stheme:/d' "$ti"
+echo "stheme:/usr/share/themes/Breeze/gtk-4.0/gtk.css" >> "$ti"
+fi
+tApply
+}
+$fcall tSystem
+
+# Apply Theme: =========================
+function tApply {
+stheme=$(grep "stheme" $ti | awk 'BEGIN {FS=":" } { print $2 }')
+export tp="$stheme"
+wmctrl -c 'shLight-Menu'
+wmctrl -c 'shLight-Theme'
+mMenu
+}
+$fcall tApply
+
+# Browse Theme: ========================
+function tBrowse {
+xdg-open "/usr/share/themes/"
+}
+$fcall tBrowse
+
+# Main Help: ===========================
+function mHelp {
+yad --html --browser --css="$tp" --width=900 --height=500 --posx=20 --posy=115 --title="shLight-Documentation" --name="mHelp" --window-icon="text-html" --uri="https://github.com/rweckert/shLight/blob/eb9adcd52785eb3b45819bf4b3425e3b608ce847/README.md" --file-op
+}
+$fcall mHelp
+
+# About ================================
+function mAbout {
+yad --about --css="$tp" \
+--window-icon="text-x-script" \
 --image="text-x-script" \
---authors="Lorenzo Bettini: http://www.lorenzobettini.it is the aurhor of the
-source-highlight program Copyright © 1999-2008.
-source-highlight 3.1.9 (library: 4:1:0) June 2019.
-yad gui front-end written by: Robert W Eckert - rweckert@gmail.com" \
+--authors="Robert W Eckert - rweckert@gmail.com" \
 --license="GPL3" \
---comments="shLight is a source highlighting gui utility.
-This interface relies on the program source-highlight
-written by Lorenzo Bettini:
-http://www.lorenzobettini.it" \
---copyright="Updated 02/27/2025 by Robert W Eckert" \
---pversion="Version: 1.2" \
+--comments="Useful source syntax highlighting front-end GUI utility." \
+--copyright="Updated 04/22/2025 by Robert W Eckert" \
+--pversion="Version: 1.4" \
 --pname="shLight" \
 --button="Close!gtk-close":1
 }
-$fcall about
+$fcall mAbout
 
-function shLanguage {
-yd3=$(yad --list --width=500 --height=400 --posx=280 --posy=160 --title="Language Reference" --name="shLanguage" --window-icon="" --no-buttons --columns=2 \
---column="Value" \
---column="Description" \
-C cpp.lang \
-F77 fortran.lang \
-F90 fortran.lang \
-H cpp.lang \
-ac m4.lang \
-ada ada.lang \
-adb ada.lang \
-am makefile.lang \
-applescript applescript.lang \
-asm asm.lang \
-autoconf m4.lang \
-awk awk.lang \
-bash sh.lang \
-bat bat.lang \
-batch bat.lang \
-bib bib.lang \
-bison bison.lang \
-c c.lang \
-caml caml.lang \
-cbl cobol.lang \
-cc cpp.lang \
-changelog changelog.lang \
-clipper clipper.lang \
-cls latex.lang \
-cobol cobol.lang \
-coffee coffeescript.lang \
-coffeescript coffeescript.lang \
-conf conf.lang \
-cpp cpp.lang \
-cs csharp.lang \
-csh sh.lang \
-csharp csharp.lang \
-css css.lang \
-ctp php.lang \
-cxx cpp.lang \
-d d.lang \
-desktop desktop.lang \
-diff diff.lang \
-dmd d.lang \
-docbook xml.lang \
-dtx latex.lang \
-el lisp.lang \
-eps postscript.lang \
-erl erlang.lang \
-erlang erlang.lang \
-errors errors.lang \
-f fortran.lang \
-f77 fortran.lang \
-f90 fortran.lang \
-feature feature.lang \
-fixed-fortran fixed-fortran.lang \
-flex flex.lang \
-fortran fortran.lang \
-free-fortran fortran.lang \
-glsl glsl.lang \
-go go.lang \
-groovy groovy.lang \
-h cpp.lang \
-haskell haskell.lang \
-haxe haxe.lang \
-hh cpp.lang \
-hpp cpp.lang \
-hs haskell.lang \
-htm html.lang \
-html html.lang \
-hx haxe.lang \
-hxx cpp.lang \
-in makefile.lang \
-ini desktop.lang \
-ipxe ipxe.lang \
-islisp islisp.lang \
-java java.lang \
-javalog javalog.lang \
-javascript javascript.lang \
-js javascript.lang \
-json json.lang \
-kcfg xml.lang \
-kdevelop xml.lang \
-kidl xml.lang \
-ksh sh.lang \
-l flex.lang \
-lang langdef.lang \
-langdef langdef.lang \
-latex latex.lang \
-ldap ldap.lang \
-ldif ldap.lang \
-lex flex.lang \
-lgt logtalk.lang \
-lhs haskell_literate.lang \
-lilypond lilypond.lang \
-lisp lisp.lang \
-ll flex.lang \
-log log.lang \
-logtalk logtalk.lang \
-lsm lsm.lang \
-lua lua.lang \
-ly lilypond.lang \
-m4 m4.lang \
-makefile makefile.lang \
-manifest manifest.lang \
-mf manifest.lang \
-ml caml.lang \
-mli caml.lang \
-moc cpp.lang \
-opa opa.lang \
-outlang outlang.lang \
-oz oz.lang \
-pas pascal.lang \
-pascal pascal.lang \
-patch diff.lang \
-pc pc.lang \
-perl perl.lang \
-php php.lang \
-php3 php.lang \
-php4 php.lang \
-php5 php.lang \
-pkgconfig pc.lang \
-pl prolog.lang \
-pm perl.lang \
-po po.lang \
-postscript postscript.lang \
-pot po.lang \
-prg clipper.lang \
-prolog prolog.lang \
-properties properties.lang \
-proto proto.lang \
-protobuf proto.lang \
-ps postscript.lang \
-py python.lang \
-python python.lang \
-r r.lang \
-rb ruby.lang \
-rc xml.lang \
-rs rust.lang \
-ruby ruby.lang \
-s s.lang \
-scala scala.lang \
-scheme scheme.lang \
-scm scheme.lang \
-scpt applescript.lang \
-sh sh.lang \
-shell sh.lang \
-sig sml.lang \
-sl slang.lang \
-slang slang.lang \
-slsh slang.lang \
-sml sml.lang \
-spec spec.lang \
-sql sql.lang \
-sty latex.lang \
-style style.lang \
-syslog log.lang \
-tcl tcl.lang \
-tcsh sh.lang \
-tex latex.lang \
-texi texinfo.lang \
-texinfo texinfo.lang \
-tk tcl.lang \
-tml tml.lang \
-txt nohilite.lang \
-ui xml.lang \
-upc upc.lang \
-vala vala.lang \
-vbs vbscript.lang \
-vbscript vbscript.lang \
-vim vim.lang \
-xhtml xml.lang \
-xml xml.lang \
-xorg xorg.lang \
-y bison.lang \
-yacc bison.lang \
-yy bison.lang \
-zsh zsh.lang)
+# Load Menu: ===========================
+function mLoad {
+if test -f "$ti"; then
+stheme=$(grep "stheme" $ti | awk 'BEGIN {FS=":" } { print $2 }')
+export tp="$stheme"
+mMenu
+else
+export tp=""
+mMenu
+fi
 }
-$fcall shLanguage
+$fcall mLoad
 
-if [ -z "$1" ]; then mMenu; else $1; fi
+# Exit and Cleanup =====================
+function mExit {
+wmctrl -c 'shLight-Menu'
+wmctrl -c 'shLight-Convert'
+wmctrl -c 'shLight-Multiple'
+wmctrl -c 'shLight-Multiple-List'
+wmctrl -c 'shLight-View'
+wmctrl -c 'shLight-Languages'
+wmctrl -c 'shLight-Theme'
+wmctrl -c 'shLight-Documentation'
+rm -f "$td/shLight-Converted.txt"
+rm -f "$th"
+rm -f "$tf"
+rm -f "$tt"
+rm -f "$tl"
+rm -f "$tm"
+rm -f "$tc"
+exit
+}
+$fcall mExit
+
+if [ -z "$1" ]; then mLoad; else $1; fi
