@@ -22,7 +22,7 @@ _chmod +x shLight.sh_
 - Use the 'F1' key for documentation from any main window. <br/>
 
 ### Typical Usage:
-When opening shLight select either the option for "Convert" to convert a source file to a HTML syntax highlighted document or "Multiple" for multiple files to be converted at once. In either option, you will be directed to a window asking for input of the file(s) of source to be converted. Options include "Source", "Language", "Output Folder", and "Syntax Style" as well as "Line Numbers". Over 170 source languages are supported and over 40 different document styles are supported. After making selections click on the appropriate convert button to then view results ready for publishing.
+When opening shLight select either the option for "Convert" to convert a source file to a HTML syntax highlighted document or "Multiple" for multiple files to be converted at once. In either option, you will be directed to a window asking for input of the file(s) of source to be converted. Options include "Source", "Language", "Output Folder", and "Syntax Style" as well as "Line Numbers". Over 170 source languages and over 40 different document styles are supported. After making selections click on the appropriate convert button to then view results ready for publishing.
 
 ### Detailed Options and Usage:
 When opening the shLight script the main menu will appear with the following options: <br/>
