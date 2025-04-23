@@ -124,9 +124,10 @@ The following applications are in general use of most Linux systems and are used
 ### Critical System Requirements:
 Packages listed below provide the core ingredients for graphic display and desired output that enables SCRIPTNAME deliver output and are critical for successful execution of the the script:
 
-**- yad (Yet Another Dialog):** 14.0+ (GTK+ 3.24.41). A tool for developing graphical user interfaces in Linux and is used by this script to generate menus and dialog windows, is written by Victor Ananjevsky. Download: [https://github.com/v1cont/yad](https://github.com/v1cont/yad) Full setup instructions are available for either Linux or Microsoft Windows Subsystem for Linux (WSL) using a Debian base: [https://github.com/rweckert/yad-14.0-Setup-From-Scratch](https://github.com/rweckert/yad-14.0-Setup-From-Scratch) 
-
-**- source-highlight:** 3.1.9 (library: 4:1:0). The source-highlight package is used to convert source code to syntax highlighted documents. Written by Lorenzo Bettini [http://www.lorenzobettini.it](http://www.lorenzobettini.it) More information regarding this package can be found at: [https://linux.die.net/man/1/source-highlight](https://linux.die.net/man/1/source-highlight) and also [https://www.gnu.org/software/src-highlite/](https://www.gnu.org/software/src-highlite/).
+| Package       | Version              | Notes         |
+|     :---:     |         :---:        | :---          |
+| **yad** | 14.0+ (GTK+ 3.24.41) | A tool for developing graphical user interfaces in Linux and is used by this script to generate menus and dialog windows, is written by Victor Ananjevsky. **Download:** [https://github.com/v1cont/yad](https://github.com/v1cont/yad) **Setup:** Step by step instructions are available for either Linux or Microsoft Windows Subsystem for Linux (WSL) using a Debian base: [https://github.com/rweckert/yad-14.0-Setup-From-Scratch](https://github.com/rweckert/yad-14.0-Setup-From-Scratch) |
+| **source-highlight** | 3.1.9 (library: 4:1:0) | The source-highlight package is used to convert source code to syntax highlighted documents. Written by Lorenzo Bettini [http://www.lorenzobettini.it](http://www.lorenzobettini.it) More information regarding this package can be found at: [https://linux.die.net/man/1/source-highlight](https://linux.die.net/man/1/source-highlight) and also [https://www.gnu.org/software/src-highlite/](https://www.gnu.org/software/src-highlite/). |
 
 ### Closing:
 Script interface written by: Robert W. Eckert - rweckert@gmail.com Please feel free to email to submit bugs, changes or requests. This script comes with absolutely no warranty. See the link for the GNU General Public License, version 3 or later listed below for further details.
