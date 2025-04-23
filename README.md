@@ -5,7 +5,7 @@ Useful source syntax highlighting front-end GUI utility.
 The shLight script allows the process of converting source code of varying languages to syntax highlighted HTML documents with options of different styles. shLight allows the option to convert a single document or a batch list of documents with ease.
 
 ### Setup:
-1. Please review "Common System Requirements" and "Critical System Requirements" sections below for basic and critical requirements to run this script successfully.
+1. Please review "[Common System Requirements](https://github.com/rweckert/shLight/blob/main/README.md#common-system-requirements)" and "[Critical System Requirements](https://github.com/rweckert/shLight/blob/main/README.md#critical-system-requirements)" sections below for basic and critical requirements to run this script successfully.
 2. Save the shLight.sh file to a directory. <br/>
 3. Make the shLight.sh script executable by running the following command in the same directory as the cImage.sh file: <br/>
 _chmod +x shLight.sh_
