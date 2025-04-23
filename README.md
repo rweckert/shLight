@@ -85,12 +85,15 @@ The "Theme" main menu option allows the user to change settings for the theme be
 **- Close:** Closes the "Options" window. <br/>
 
 ### Notes:
+- shLight can be ran from any directory. <br/>
+- shLight uses the /tmp/ folder for temporary and .ini files. <br/>
 - The main menu option for "View" will display the last single highlighting conversion made. If a conversion file is not found a message will appear stating that you must first perform a conversion before viewing. <br/>
 - To access a list of previous multiple conversions, select "Multiple" from the main menu and then inside the "shLight Multiple" window select "Multiple Result List".
 - Creating a highlighted conversion for either single or multiple files, the fields for "Source", "Language", "Output Folder", and "Syntax Style" must be filled or a error pointing out what field was not filled will appear. <br/>
 - The "Language" option from the main menu will display a list of all source languages that the installed source-highlight package supports. This is shown as a seperate list as the list being over 170 languages is too large for the menu to be usable. The "Language" pull down option for both single and multiple conversions allow a language not listed to be typed in. <br/>
-- The list of styles available are list of all source languages that the installed source-highlight package supports. These *.css style sheet files can be found in the "/usr/share/source-highlight/" folder. <br/>
-- All temporary files created by shLight are removed once the shLight script closes.
+- The list of over 40 different document styles available for use are directly from the installed source-highlight package. These *.css style sheet files can be found in the "/usr/share/source-highlight/" folder. <br/>
+- All temporary files created by shLight are removed once the shLight script closes. <br/>
+- Use the 'F1' key for documentation from any main window.
 
 ### cImage Shortcut File:
 Save the following as a file named "shLight.desktop" in creating a shortcut to this utility. Update the path for "Exec" to where the script is stored: <br/>
