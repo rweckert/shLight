@@ -109,7 +109,7 @@ Icon=gtk-select-color <br/>
 Terminal=false <br/>
 
 ### Common System Requirements:
-The following applications are in general use of most Linux systems and are used in having shLight deliver output: <br/>
+The following shell commands are in general use of most Linux systems and are used in having shLight deliver output: <br/>
 - awk <br/>
 - basemane <br/>
 - cat <br/>
@@ -122,7 +122,7 @@ The following applications are in general use of most Linux systems and are used
 - xdg-open <br/>
 
 ### Critical System Requirements:
-Packages listed below provide the core ingredients for graphic display and desired output that enables SCRIPTNAME deliver output and are critical for successful execution of the the script:
+Packages listed below provide the core ingredients for graphic display and desired output that enables shLight deliver output and are critical for successful execution of the the script:
 
 | Package       | Version              | Notes         |
 |     :---:     |         :---:        | :---          |
