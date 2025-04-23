@@ -130,19 +130,18 @@ This script uses features of yad that do require version 14.0+ and built with GT
 **- yad (Yet Another Dialog):** A tool for developing graphical user interfaces in Linux, is written by Victor Ananjevsky. Download: [https://github.com/v1cont/yad](https://github.com/v1cont/yad) Installation instructions: https://github.com/rweckert/yad-14.0-Setup-From-Scratch <br/>
 **- source-highlight:** The source-highlight package is used to convert source code to syntax highlighted documents. Written by Lorenzo Bettini [http://www.lorenzobettini.it](http://www.lorenzobettini.it) More information regarding this package can be found at: [https://linux.die.net/man/1/source-highlight](https://linux.die.net/man/1/source-highlight) and also [https://www.gnu.org/software/src-highlite/](https://www.gnu.org/software/src-highlite/).
 
-Script interface written by: Robert W. Eckert - rweckert@gmail.com Please feel free to email to submit bugs, changes or requests.
-This script comes with absolutely no warranty. See the GNU General Public License, version 3 or later for details.
+Script interface written by: Robert W. Eckert - rweckert@gmail.com Please feel free to email to submit bugs, changes or requests. This script comes with absolutely no warranty. See the link for the GNU General Public License, version 3 or later listed below for further details.
 
 ### Project Contents:
 **Project Page:** <br/>
-
+[https://github.com/rweckert/shLight](https://github.com/rweckert/shLight) <br/>
 **Source File:** <br/>
-
+[https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/shLight.sh](https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/shLight.sh) <br/>
 **Documentation File:** <br/>
-
+[https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/README.md](https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/README.md) <br/>
 **Project Screenshot:** <br/>
-
+[https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/screenshot-shLight.jpg](https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/screenshot-shLight.jpg) <br/>
 **Project Licensing:** <br/>
-
+[https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/LICENSE](https://github.com/rweckert/shLight/blob/5122f14ae9feba6d896d7323dbe5200fbc9fc2bf/LICENSE) <br/>
 **GitHub Profile Page:** <br/>
-
+[https://github.com/rweckert](https://github.com/rweckert)
