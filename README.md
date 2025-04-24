@@ -1,4 +1,4 @@
-# shLight
+# <img align="left" width="48" src="Icon-shLight.png" /> shLight
 Useful source syntax highlighting front-end GUI utility.
 
 ### Script Purpose as a Tool:
@@ -109,17 +109,7 @@ Icon=gtk-select-color <br/>
 Terminal=false <br/>
 
 ### Common System Requirements:
-The following shell commands are in general use of most Linux systems and are used in having shLight deliver output: <br/>
-- awk <br/>
-- basemane <br/>
-- cat <br/>
-- print <br/>
-- read <br/>
-- rm <br/>
-- sed <br/>
-- while <br/>
-- wmctrl <br/>
-- xdg-open <br/>
+Common shell commands found in most Linux installations are used to provide system functionalilty for this and other scripts shared from this profile. For thoroughness, these common shell commands are listed in alphabetical order with version and man page link for review: 
 
 ### Critical System Requirements:
 Packages listed below provide the core ingredients for graphic display and desired output that enables shLight deliver output and are critical for successful execution of the the script:
